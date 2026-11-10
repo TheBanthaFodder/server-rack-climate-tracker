@@ -32,6 +32,8 @@ void loop() {
   // Attempt to read temperature and humidity together with error checking
   int result = dht11.readTemperatureHumidity(tempc, hum);
 
+  delay(50);
+
   if (result == 0) {
     // Success! Convert to Fahrenheit and display
     decideLightColor(tempc);
