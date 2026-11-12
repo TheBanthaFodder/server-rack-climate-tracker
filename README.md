@@ -30,3 +30,4 @@ If you wish to replicate this project, make sure you set a common password for t
 - `docker-compose.yml`
 - `web-app.py`
 - `main.py`
+Don't open up the ports for this service, it is not at all secure! I just intended for this to be a practice project that I can access on prem.
