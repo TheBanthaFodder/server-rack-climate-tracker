@@ -21,12 +21,8 @@ def rack_data():
             database="climate_monitor"
         )
         cursor = db.cursor(dictionary=True)
-
-<<<<<<< Updated upstream
-        cursor.execute("SELECT * FROM TEMPERATURE_and_Humidity")
-=======
+		
         cursor.execute("SELECT * FROM Temperature_and_Humidity WHERE DATE(recorded_at) = CURDATE()")
->>>>>>> Stashed changes
         rows = cursor.fetchall()
 
         # Free the resources
@@ -38,12 +34,6 @@ def rack_data():
         # this error should print to the page instead of crashing
         return jsonify({"error": str(e)}), 500
         
-<<<<<<< Updated upstream
-
-if __name__ == '__main__':
-	app.run()
-=======
 # set host to 0.0.0.0 so I can access it
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=5000)
->>>>>>> Stashed changes
