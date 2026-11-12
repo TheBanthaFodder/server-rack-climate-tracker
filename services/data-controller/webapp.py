@@ -1,29 +1,39 @@
 import json
+import time
 import mysql.connector
 
-from flask import Flask
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 
 time.sleep(5)
 
-# connect to the DB
-db = mysql.connector.connect(
-	host="db",
-	user="root",
-	password="PASSWORD", # Password ommited for obvious reasons
-	database="climate_monitor"
-)
-cursor = db.cursor(dictionary=True)
-
 # App endpoint
 # Should simply just dump the database records onto a webpage.
 @app.route('/')
 def rack_data():
-	cursor.execute("SELECT * FROM TEMPERATURE_and_Humidity")
-    rows = cursor.fetchall()
-    json_data = json.dumps(rows, indent=4, default=str)
-    return json_data
+    try:
+        # connect to the DB
+        db = mysql.connector.connect(
+            host="db",
+            user="root",
+            password="PASSWORD", # Password ommited for obvious reasons
+            database="climate_monitor"
+        )
+        cursor = db.cursor(dictionary=True)
+
+        cursor.execute("SELECT * FROM TEMPERATURE_and_Humidity")
+        rows = cursor.fetchall()
+
+        # Free the resources
+        cursor.close()
+        db.close()
+
+        return jsonify(rows)
+    except Exception as e:
+        # this error should print to the page instead of crashing
+        return jsonify({"error": str(e)}), 500
+        
 
 if __name__ == '__main__':
 	app.run()
